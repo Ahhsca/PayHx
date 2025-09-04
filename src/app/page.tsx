@@ -3,11 +3,11 @@
 import { HospitalMultiSelect } from "@/components/hospital-multiselect";
 import { MekkoChart } from "@/components/mekko-chart";
 import { HospitalMultiselectProvider } from "@/context/hospital-multiselect-context";
-import { db } from "@/resources/firebase";
+import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-export default function Home() {
+export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -48,8 +48,8 @@ export default function Home() {
   if (loading) return <div className="text-center p-5">Loading...</div>;
 
   return (
-    <div className="container mx-auto">
-      <div className="flex col flex-col gap-4">
+    <main className="container mx-auto">
+      <div className="flex flex-col gap-4">
         <h1 className="px-2 sm:p-0 text-4xl font-extrabold tracking-tight">
           Know you worth!
         </h1>
@@ -76,6 +76,6 @@ export default function Home() {
         </HospitalMultiselectProvider>
         <div className="text-center">This is where Footer should be</div>
       </div>
-    </div>
+    </main>
   );
 }

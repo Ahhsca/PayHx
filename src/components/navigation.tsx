@@ -1,6 +1,8 @@
 "use client";
 
+import { AuthDialog } from "@/components/auth-dialog";
 import { HeaderLogo } from "@/components/header-logo";
+import { ThemeToggleButton } from "@/components/theme-toggle-button";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import {
@@ -11,9 +13,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { MenuIcon, XIcon } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
-import { ThemeToggleButton } from "@/components/theme-toggle-button";
 
 const navItems = [
   {
@@ -42,11 +42,13 @@ const ResponsiveNavigation = () => {
           <NavigationMenuItem key={item.title} className="w-full">
             <NavigationMenuLink
               className={`${navigationMenuTriggerStyle()} w-full items-start sm:w-max`}
+              href={item.link}
             >
-              <Link href={item.link}>{item.title}</Link>
+              {item.title}
             </NavigationMenuLink>
           </NavigationMenuItem>
         ))}
+        <AuthDialog />
         <NavigationMenuItem className="hidden sm:flex">
           <ThemeToggleButton />
         </NavigationMenuItem>

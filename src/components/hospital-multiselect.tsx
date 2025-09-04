@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Chip } from "@/components/ui/chip";
 import {
   Command,
   CommandEmpty,
@@ -21,7 +22,6 @@ import {
 } from "@/context/hospital-multiselect-context";
 import { useBreakpoints } from "@/hooks/use-breakpoints";
 import React, { useState } from "react";
-import { Chip } from "./ui/chip";
 
 const hospitals: Hospital[] = [
   {
