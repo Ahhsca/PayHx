@@ -8,13 +8,14 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyB_BLIz6Hi7toBDqWBAjykfpUFX3uajcuQ",
+  apiKey: "AIzaSyAl0E7FXQHvxQSt6tru2NlmjAr3C4Wju9k",
   authDomain: "payhx-23733.firebaseapp.com",
+  databaseURL: "https://payhx-23733-default-rtdb.firebaseio.com",
   projectId: "payhx-23733",
-  storageBucket: "payhx-23733.appspot.com",
+  storageBucket: "payhx-23733.firebasestorage.app",
   messagingSenderId: "707365841426",
-  appId: "1:931809729784:web:2cfe76b67ecf241dbc2f0d",
-  measurementId: "G-CVBYLXZF80",
+  appId: "1:707365841426:web:279818ea3c1a2b635f86cb",
+  measurementId: "G-6DG26GDX1C",
 };
 
 // Initialize Firebase
@@ -23,4 +24,3 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 export { auth, db };
-

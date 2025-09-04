@@ -11,9 +11,9 @@ export const signUpWithEmailAndPassword = async (authData: {
       authData.emailAddress,
       authData.password,
     );
-    console.log(">>", user);
     return user;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error("Firebase issue creating user", { cause: error });
   }
 };

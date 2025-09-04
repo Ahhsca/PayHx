@@ -16,6 +16,6 @@ interface Salary {
   shiftDiffType: string;
 }
 export async function addSalaryData(salaryData: Salary) {
-  const docRef = await addDoc(collection(db, "salaries"), salaryData);
+  const docRef = await addDoc(collection(db, "salarySubmissions"), salaryData);
   return docRef.id;
 }
