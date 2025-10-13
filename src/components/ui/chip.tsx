@@ -2,11 +2,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
 
-interface ChipProps {
-  value: number | string;
+type ChipProps = {
+  value: number;
   label: string;
-  onClose?: (value: number | string) => void;
-}
+  onClose?: (value: number) => void;
+};
 
 export const Chip = ({ value, label, onClose }: ChipProps) => {
   return (

@@ -1,4 +1,4 @@
-import { signUpWithEmailAndPassword } from "@/app/api/auth/create-user";
+import { loginWithEmailAndPassword } from "@/app/api/auth/sign-in";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -7,13 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { authFormSchema } from "./signup-form";
 
-export const authFormSchema = z.object({
-  emailAddress: z.string().email(),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-});
-
-export const SignUpForm = () => {
+export const LoginForm = () => {
   const form = useForm<z.infer<typeof authFormSchema>>({
     resolver: zodResolver(authFormSchema),
     defaultValues: {
@@ -24,10 +20,10 @@ export const SignUpForm = () => {
 
   const onSubmit = async (data: z.infer<typeof authFormSchema>) => {
     try {
-      await signUpWithEmailAndPassword(data);
+      await loginWithEmailAndPassword(data);
     } catch (error) {
       const errorMessage = getErrorMessage(error);
-      console.error("Error during sign up process: ", errorMessage);
+      console.error("Error during login process: ", errorMessage);
       toast.error("An unexpected error occurred. Please try again.");
     }
   };
@@ -58,7 +54,7 @@ export const SignUpForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Register</Button>
+          <Button type="submit">Login</Button>
         </div>
       </form>
     </Form>

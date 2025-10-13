@@ -16,56 +16,34 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Hospital,
-  useHospitalMultiselect,
-} from "@/context/hospital-multiselect-context";
+import { useHospitalMultiselectContext } from "@/context/hospital-multiselect-context";
 import { useBreakpoints } from "@/hooks/use-breakpoints";
 import React, { useState } from "react";
-
-const hospitals: Hospital[] = [
-  {
-    id: "kaiser",
-    label: "Kaiser Permanente",
-  },
-  {
-    id: "ucla",
-    label: "UCLA",
-  },
-  {
-    id: "uci",
-    label: "UC Irvine",
-  },
-  {
-    id: "ucsf",
-    label: "UCSF",
-  },
-];
 
 export const HospitalMultiSelect = () => {
   const [open, setOpen] = useState(false);
   const { isLargerThanMobile } = useBreakpoints();
-  // const [selectedHospitals, setSelectedHospitals] = useState<
-  //   (Hospital | null)[]
-  // >([hospitals[0], null, null]);
-  const { selectedHospitals, setSelectedHospitals } = useHospitalMultiselect();
+  const { allHospitalNames, selectedHospitals, setSelectedHospitals } =
+    useHospitalMultiselectContext();
 
-  const onHospitalDelete = (value: number | string) => {
-    const hospitalIndex = selectedHospitals.findIndex((h) => h?.id === value);
-    if (hospitalIndex === -1) return;
+  const onHospitalDelete = (value: number) => {
     setSelectedHospitals((prev) => {
       const updated = [...prev];
-      updated[hospitalIndex] = null;
+      updated[value] = null;
       return updated;
     });
   };
 
   const selectedList = () => {
-    return selectedHospitals.map((hospital) => {
+    return selectedHospitals.map((hospital, index) => {
       if (hospital) {
-        const { id, label } = hospital;
         return (
-          <Chip key={id} value={id} label={label} onClose={onHospitalDelete} />
+          <Chip
+            key={index}
+            value={index}
+            label={hospital}
+            onClose={onHospitalDelete}
+          />
         );
       }
     });
@@ -84,6 +62,8 @@ export const HospitalMultiSelect = () => {
           <PopoverContent className="w-[200px] p-0" align="start">
             <HospitalList
               setOpen={setOpen}
+              allHospitalNames={allHospitalNames}
+              selectedHospitals={selectedHospitals}
               setSelectedHospitals={setSelectedHospitals}
             />
           </PopoverContent>
@@ -105,6 +85,8 @@ export const HospitalMultiSelect = () => {
           <div className="mt-4 border-t">
             <HospitalList
               setOpen={setOpen}
+              allHospitalNames={allHospitalNames}
+              selectedHospitals={selectedHospitals}
               setSelectedHospitals={setSelectedHospitals}
             />
           </div>
@@ -116,24 +98,26 @@ export const HospitalMultiSelect = () => {
 
 const HospitalList = ({
   setOpen,
+  allHospitalNames,
+  selectedHospitals,
   setSelectedHospitals,
 }: {
   setOpen: (open: boolean) => void;
-  setSelectedHospitals: React.Dispatch<
-    React.SetStateAction<(Hospital | null)[]>
-  >;
+  allHospitalNames: string[];
+  selectedHospitals: (string | null)[];
+  setSelectedHospitals: React.Dispatch<React.SetStateAction<(string | null)[]>>;
 }) => {
-  const onHospitalSelect = (value: string) => {
+  const onHospitalSelect = (value: number) => {
+    if (selectedHospitals.includes(allHospitalNames[value])) return;
     setSelectedHospitals((prev) => {
-      const hospital = hospitals.find((h) => h.id === value) || null;
       const firstNullIdx = prev.findIndex((h) => h === null);
       if (firstNullIdx !== -1) {
         const updated = [...prev];
-        updated[firstNullIdx] = hospital;
+        updated[firstNullIdx] = allHospitalNames[value];
         return updated;
       } else {
         const updated = [...prev];
-        updated[updated.length - 1] = hospital;
+        updated[updated.length - 1] = allHospitalNames[value];
         return updated;
       }
     });
@@ -145,16 +129,16 @@ const HospitalList = ({
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
-          {hospitals.map((hospital) => (
+          {allHospitalNames.map((hospital, index) => (
             <CommandItem
-              key={hospital.id}
-              value={hospital.id}
+              key={index}
+              value={String(index)}
               onSelect={(value) => {
-                onHospitalSelect(value);
+                onHospitalSelect(Number(value));
                 setOpen(false);
               }}
             >
-              {hospital.label}
+              {hospital}
             </CommandItem>
           ))}
         </CommandGroup>

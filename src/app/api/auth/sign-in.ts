@@ -1,23 +1,23 @@
 import { auth } from "@/lib/firebase";
 import { getErrorMessage } from "@/lib/utils";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "sonner";
 
-export const signUpWithEmailAndPassword = async (authData: {
+export const loginWithEmailAndPassword = async (authData: {
   emailAddress: string;
   password: string;
 }) => {
   try {
-    const user = await createUserWithEmailAndPassword(
+    const user = await signInWithEmailAndPassword(
       auth,
       authData.emailAddress,
       authData.password,
     );
-    toast.success("Account created!");
+    toast.success("Logged in!");
     return user;
   } catch (error) {
     const errorMessage = getErrorMessage(error);
-    console.error("Error signUpWithEmailAndPassword: ", errorMessage);
-    toast.error("Sign up failed!");
+    console.error("Error loginWithEmailAndPassword: ", errorMessage);
+    toast.error("Log in failed!");
   }
 };

@@ -1,7 +1,7 @@
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-interface Salary {
+type Salary = {
   emailAddress: string;
   city: string;
   state: string;
@@ -14,8 +14,8 @@ interface Salary {
   pay: number;
   shiftDiffPay: number;
   shiftDiffType: string;
-}
-export async function addSalaryData(salaryData: Salary) {
+};
+export const addSalaryData = async (salaryData: Salary) => {
   const docRef = await addDoc(collection(db, "salarySubmissions"), salaryData);
   return docRef.id;
-}
+};
